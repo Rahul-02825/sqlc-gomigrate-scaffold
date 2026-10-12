@@ -10,9 +10,16 @@ import (
 )
 
 func main() {
+
 	ctx := context.Background()
+	dbURL, ok := os.LookupEnv("DATABASE_URL");
+	if !ok || dbURL == ""{
+		fmt.Printf("error in gettting dburl from env")
+	}
+	fmt.Println(dbURL)
+	// os.Getenv("DATABASE_URL")
 	// urlExample := "postgres://username:password@localhost:5432/database_name"
-	conn, err := pgx.Connect(ctx,"postgresql://postgres:Thorodinson28@db.iuifkaowkjseckiwdifo.supabase.co:5432/postgres")
+	conn, err := pgx.Connect(ctx,dbURL)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
